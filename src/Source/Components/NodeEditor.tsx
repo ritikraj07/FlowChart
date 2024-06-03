@@ -23,8 +23,7 @@ export default function NodeEditor() {
       if (node) {
         setText(node.data.label);
       } else {
-        console.log("node not found");
-        navigate("/node-editor");
+        navigate("/node-panel");
       }
     }
   }, [id, nodes, navigate]);
@@ -69,8 +68,6 @@ export default function NodeEditor() {
         sx={{
           height: "100px",
           padding: "10px 5px",
-          borderBottom: "1px solid black",
-          borderTop: "1px solid black",
           position: "relative",
         }}
       >

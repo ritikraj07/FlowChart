@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Navbar } from "../Components";
 import { Box } from "@mui/material";
 import Controller from "../Components/Controller";
@@ -7,68 +13,48 @@ import ReactFlow, {
   MiniMap,
   Controls,
   Background,
-  useNodesState,
-  useEdgesState,
   addEdge,
   Panel,
   Connection,
   Edge,
-  BackgroundVariant,
-  NodeProps,
-  EdgeProps,
   Node,
   OnSelectionChangeParams,
+  ConnectionLineType,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import MessageNode from "../Components/Nodes/MessageNode";
-import { useDispatch, useSelector } from "react-redux";
-import { addNode } from "../Redux/nodesSlice";
 import { ReactFlowContextApi } from "../ContextApi/Index";
-
-
+import SpeedDialComponent from "../Components/SpeedDial/SpeedDail.tsx";
 
 export default function Home() {
-   const context = useContext(ReactFlowContextApi);
+  const context = useContext(ReactFlowContextApi);
 
-   if (!context) {
-     return <div>Loading...</div>;
-   }
+  if (!context) {
+    return <div>Loading...</div>;
+  }
 
-   const { nodes, setNodes, onNodesChange, edges, setEdges, onEdgesChange, IsMiniMapOn } =
-     context;
-  
-  const nodesData = useSelector((state: any) => state.nodes.nodes);
-  const edgesData = useSelector((state: any) => state.edges.edges);
-  // const [nodes, setNodes, onNodesChange] = useNodesState<NodeProps>(nodesData);
-  // const [edges, setEdges, onEdgesChange] = useEdgesState<EdgeProps>(edgesData);
-  const [selectedNodes, setSelectedNodes] = useState<Node[]>([]);
-  const [selectedEdges, setSelectedEdges] = useState<Edge[]>([]);
+  const {
+    nodes,
+    setNodes,
+    onNodesChange,
+    edges,
+    setEdges,
+    onEdgesChange,
+    IsMiniMapOn,
+    backgroundColor,
+    backgroundVariant,
+    bgLineWidth,
+    bgGap,
+    bgSize,
+  } = context;
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    
-    // setNodes(nodesData);
-    
-  }, [nodesData]);
-
-  // function upDateNodeData(id: string, data: any) {
-  //   setNodes((nds) => nds.map((node) => (node.id === id ? { ...node, data } : node)));
-  // }
-
-  // useEffect(() => {
-  //   console.log("43",nodes)
-  // },[nodes])
-
-  // useEffect(() => {
-  //   setEdges(edgesData);
-  // }, [edgesData]);
 
   const onConnect = useCallback(
     (params: Edge | Connection) => {
       setEdges((eds) => {
         console.log(eds);
-      return addEdge(params, eds)
+        return addEdge(params, eds);
       });
     },
     [setEdges]
@@ -91,9 +77,8 @@ export default function Home() {
       id: Math.random().toString(),
       type,
       position,
-      data: { label: `${type} node` },
+      data: { label: `Your Text` },
     };
-    // dispatch(addNode(newNode));
     setNodes((nds) => nds.concat(newNode));
   }
 
@@ -104,12 +89,15 @@ export default function Home() {
 
   const onSelectionChange = useCallback(
     ({ nodes, edges }: OnSelectionChangeParams) => {
-  
-      if (nodes.length === 0) return;
-      navigate(`/node-editor/${nodes[0]?.id}`);
+      console.log(edges);
 
-      // setSelectedNodes(nodes);
-      // setSelectedEdges(edges);
+      if (edges[0]?.id !== undefined) {
+        navigate(`/edge-panel/${edges[0]?.id}`);
+       }
+
+      if (nodes[0]?.id !== undefined) {
+        navigate(`/node-editor/${nodes[0]?.id}`);
+      }
     },
     []
   );
@@ -131,12 +119,11 @@ export default function Home() {
         <Box
           sx={{
             flexGrow: { xs: 1, md: 1 },
-            border: "1px solid black",
             height: { xs: "70vh", md: "90vh" },
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: { xs: "100%", md: "75%" },
+            width: { xs: "100%", md: "70%" },
             zIndex: 1,
             position: "relative",
             margin: "auto",
@@ -153,37 +140,63 @@ export default function Home() {
             onDragOver={onDragOver}
             onSelectionChange={onSelectionChange}
             fitView
+            // connectionLineType={ConnectionLineType.Bezier} 
+            // snapToGrid={true}
+            // snapGrid={[25, 25]}
           >
             <Background
               id="1"
-              gap={[20, 30]}
-              lineWidth={0.1}
-              color="black"
-              variant={BackgroundVariant.Dots}
-              size={1}
+              gap={bgGap}
+              lineWidth={bgLineWidth}
+              color={backgroundColor}
+              variant={backgroundVariant}
+              size={bgSize}
             />
-            {/* <Controls /> */}
+            <Controls />
             <Panel position="top-right" children={undefined} />
-            {IsMiniMapOn && <MiniMap />}
+            {IsMiniMapOn && (
+              <MiniMap
+                maskColor="rgba(0, 0, 0, 0.5)"
+                nodeStrokeWidth={2}
+                nodeStrokeColor="white"
+                nodeColor={(node) => {
+                  switch (node.type) {
+                    case "input":
+                      return "blue";
+                    case "output":
+                      return "green";
+                    default:
+                      return "teal";
+                  }
+                }}
+                position="top-right"
+                style={{
+                  background: "#f0f0f0",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                }}
+                zoomable
+                pannable
+              />
+            )}
           </ReactFlow>
+          <Box sx={{ position: "absolute", bottom: "10px", right: "10px" }}>
+            <SpeedDialComponent />
+          </Box>
         </Box>
 
         {/* box for settings node and edge */}
         <Box
           sx={{
             flexGrow: { xs: 1, md: 1 },
-            border: "1px solid black",
             height: { xs: "25vh", md: "90vh" },
             background: "white",
             width: { xs: "100%", md: "25%" },
+            position: "relative",
           }}
         >
-          <Box>
-            <Controller />
-          </Box>
-          <Box>
-            <Outlet />
-          </Box>
+          <Controller />
+
+          <Outlet />
         </Box>
       </Box>
     </Box>

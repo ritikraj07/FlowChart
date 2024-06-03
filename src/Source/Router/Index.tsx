@@ -13,6 +13,7 @@ export default function Routers(): React.ReactNode {
       <Route path="/" element={<Home />}>
         <Route index path="" element={<NodePanel />} />
         <Route path="node-panel" element={<NodePanel />} />
+        <Route path="edge-panel/:id" element={<EdgePanel />} />
         <Route path="edge-panel" element={<EdgePanel />} />
         <Route path="setting-panel" element={<Settings />} />
         <Route path="node-editor" element={<SelectNode />} />

@@ -5,6 +5,7 @@ import { Handle, Position } from "reactflow";
 interface MessageNodeProps {
   data: {
     label: string;
+    
   };
 }
 
@@ -15,7 +16,6 @@ export default function MessageNode({ data }: MessageNodeProps) {
       sx={{
         display: "inline-block",
         cursor: "grab",
-        border: "1px solid black",
         background: "white",
         borderRadius: "5px",
         overflow: "hidden",
