@@ -89,6 +89,7 @@ export default function Navbar() {
                   overflow: "hidden",
                   WebkitBoxOrient: "vertical",
                   WebkitLineClamp: 1,
+                  hover: { color:"blue" },
                 }}
                 onClick={() => SetFlowChart(index)}
                 primary={index + 1 + ". " + chart.fileName}

@@ -24,8 +24,16 @@ export default function SquareNode({ data }: SquareNodeProps) {
         minHeight: "50px",
       }}
     >
-      <Box sx={{ padding: "4px" }}>
-        <pre>{data?.label}</pre>
+      <Box sx={{ padding: "4px", textAlign: "justify" }}>
+        <pre>
+          <Typography
+            sx={{
+              textAlign: "center",
+            }}
+          >
+            {data?.label}
+          </Typography>
+        </pre>
       </Box>
 
       <Handle

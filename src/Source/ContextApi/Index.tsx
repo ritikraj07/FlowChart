@@ -160,14 +160,26 @@ export default function ReactFlowContext({ children }: Props) {
   const [bgGap, setBgGap] = useState<[number, number]>([4, 4]);
   const [bgSize, setBgSize] = useState(1);
   const [fileName, SetFileName] = useState( getRandomWords(randomWords, Math.floor(Math.random() * 3) + 2).join(" "))
-
+  
+  const [id, setId] = useState<string>("")
   
 
-function SaveChart() {
+  function SaveChart() {
+    if (nodes.length == 0) {
+      alert("Nothing to save")
+      return;
+  }
   let flowCharData: any[] = JSON.parse(
     localStorage.getItem("flowCharData") || "[]"
-  ); // Use an empty array as default value
-  let id = Math.random().toString();
+  ); 
+
+    flowCharData = flowCharData.filter((chart) => {
+    // console.log(chart?.id, id)
+    if (chart?.id !== id) {
+      return chart;
+    }
+  })
+  
   let chartData = {
     fileName,
     nodes,
@@ -181,8 +193,12 @@ function SaveChart() {
     bgGap,
     bgSize,
   };
+  if (id == "") {
+    setId(Math.random().toString())
+    
+  }
 
-  flowCharData.push({ ...chartData, id }); // Push the chartData along with the id
+  flowCharData.push({ ...chartData, id }); 
   localStorage.setItem("flowCharData", JSON.stringify(flowCharData));
   }
   
@@ -200,6 +216,7 @@ function SaveChart() {
       setBgLineWidth(FlowChartData[Index].bgLineWidth)
       setBgGap(FlowChartData[Index].bgGap)
       setBgSize(FlowChartData[Index].bgSize)
+      setId(FlowChartData[Index].id)
       return true;
     }
     return false;
@@ -215,7 +232,9 @@ function SaveChart() {
   function ResetChart() {
     setNodes([])
     setEdges([])
-    SetFileName("")
+    SetFileName(
+      getRandomWords(randomWords, Math.floor(Math.random() * 3) + 2).join(" ")
+    );
     SetMiniMapOn(true)
     setNodeColor("#00ff00")
     setEdgeColor("#ff0000")
@@ -224,6 +243,7 @@ function SaveChart() {
     setBgLineWidth(0.5)
     setBgGap([4, 4])
     setBgSize(1)
+    setId("")
   }
 
   

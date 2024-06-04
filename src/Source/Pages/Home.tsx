@@ -90,7 +90,7 @@ export default function Home() {
 
   const onSelectionChange = useCallback(
     ({ nodes, edges }: OnSelectionChangeParams) => {
-      console.log(edges);
+      // console.log(edges);
 
       if (edges[0]?.id !== undefined) {
         navigate(`/edge-panel/${edges[0]?.id}`);
