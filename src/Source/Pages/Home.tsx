@@ -25,6 +25,7 @@ import "reactflow/dist/style.css";
 import MessageNode from "../Components/Nodes/MessageNode";
 import { ReactFlowContextApi } from "../ContextApi/Index";
 import SpeedDialComponent from "../Components/SpeedDial/SpeedDail.tsx";
+import SquareNode from "../Components/Nodes/SquareNode.tsx";
 
 export default function Home() {
   const context = useContext(ReactFlowContextApi);
@@ -102,7 +103,7 @@ export default function Home() {
     []
   );
 
-  const nodeTypes = useMemo(() => ({ messageNode: MessageNode }), []);
+  const nodeTypes = useMemo(() => ({ messageNode: MessageNode, squareNode: SquareNode }), []);
 
   return (
     <Box>

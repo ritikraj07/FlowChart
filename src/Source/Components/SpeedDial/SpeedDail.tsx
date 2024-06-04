@@ -5,28 +5,31 @@ import SaveIcon from "@mui/icons-material/Save";
 import PrintIcon from "@mui/icons-material/Print";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useReactFlow, getRectOfNodes, getTransformForBounds } from "reactflow";
+import { useReactFlow, getNodesBounds, getViewportForBounds } from "reactflow";
 import { toPng } from "html-to-image";
+import { ReactFlowContextApi } from "../../ContextApi/Index";
+import { useContext, } from "react";
+
 const imageWidth = 1024;
 const imageHeight = 768;
 
 export default function SpeedDialComponent() {
-   const { getNodes } = useReactFlow();
-   const nodes = getNodes();
+  let context = useContext(ReactFlowContextApi);
+  if (!context) return <p>Loading...</p>;
+  let { SaveChart, ResetChart } = context;
+  const { getNodes } = useReactFlow();
+  const nodes = getNodes();
   const actions = [
-    { icon: <FileDownloadIcon />, name: "Download" },
-    { icon: <ShareIcon />, name: "Share" },
+    // { icon: <FileDownloadIcon />, name: "Download" },
+    // { icon: <ShareIcon />, name: "Share: Feature Not Available" },
     { icon: <SaveIcon />, name: "Save" },
-    { icon: <PrintIcon />, name: "Print" },
-    { icon: <DeleteIcon />, name: "Delete" },
-    { icon: <EditIcon />, name: "Edit" },
+    // { icon: <PrintIcon />, name: "Print" },
+    { icon: <DeleteIcon />, name: "Reset" },
   ];
 
- 
-
   const handleDownload = () => {
-    const nodesBounds = getRectOfNodes(nodes);
-    const transform = getTransformForBounds(
+    const nodesBounds = getNodesBounds(nodes);
+    const transform = getViewportForBounds(
       nodesBounds,
       imageWidth,
       imageHeight,
@@ -49,26 +52,38 @@ export default function SpeedDialComponent() {
       style: {
         width: `${imageWidth}px`,
         height: `${imageHeight}px`,
-        transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
+        transform: `{x:100, y:100, zoom: 100}`,
       },
     })
       .then((dataUrl) => {
         const a = document.createElement("a");
         a.setAttribute("download", "reactflow.png");
         a.setAttribute("href", dataUrl);
+        a.setAttribute("target", "_blank");
+        document.body.appendChild(a);
+        console.log("Image saved as reactflow.png", a);
         a.click();
       })
       .catch((err) => {
+        
         console.error("Error generating image:", err);
       });
   };
+   
+
+   
 
   const handleActionClick = (actionName: string) => {
     console.log(`${actionName} clicked`);
     if (actionName == "Download") {
       handleDownload();
+    } else if (actionName == "Save") {
+      SaveChart();
+    }else if(actionName == "Reset"){
+      ResetChart();
+    }else if(actionName === "Print"){
+      
     }
-    // Implement specific logic for each action here
   };
 
   return (

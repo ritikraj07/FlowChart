@@ -15,10 +15,9 @@ import {
   Alert,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import InboxIcon from "@mui/icons-material/Inbox";
-import MailIcon from "@mui/icons-material/Mail";
+
 import { ReactFlowContextApi } from "../ContextApi/Index";
-import { CheckCircleOutline } from "@mui/icons-material";
+import { CheckCircleOutline, DeleteOutline } from "@mui/icons-material";
 
 export default function Navbar() {
   const [Visible, setVisible] = useState(false)
@@ -29,7 +28,7 @@ export default function Navbar() {
     return <div>Loading...</div>;
   }
 
-  const { fileName, SetFileName, nodes, edges, SaveChart } = context;
+  const { fileName, SetFileName, nodes, edges, SaveChart, SetFlowChart, DeleteFlowChart } = context;
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -69,18 +68,38 @@ export default function Navbar() {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <List>
-        {["draw history", "Starred", "Send email", "Drafts"].map(
-          (text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+      <Box>
+        <Typography
+          sx={{
+            textAlign: "center",
+            color: "blue",
+            fontSize: "25px",
+          }}
+        >
+          Saved File
+        </Typography>
+      </Box>
+      <Box>
+        {JSON.parse(localStorage.getItem("flowCharData") || "[]").map(
+          (chart: any, index: number) => (
+            <ListItem button key={chart.id}>
+              <ListItemText
+                sx={{
+                  display: "-webkit-box",
+                  overflow: "hidden",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 1,
+                }}
+                onClick={() => SetFlowChart(index)}
+                primary={index + 1 + ". " + chart.fileName}
+              />
+              <ListItemIcon onClick={() => DeleteFlowChart(index)}>
+                <DeleteOutline />
               </ListItemIcon>
-              <ListItemText primary={text} />
             </ListItem>
           )
         )}
-      </List>
+      </Box>
     </Box>
   );
 

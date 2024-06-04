@@ -69,12 +69,23 @@ export default function MessageNode({ data }: MessageNodeProps) {
         {/* box message */}
         <Box sx={{ padding: "10px 5px" }}>
           <Typography sx={{ fontSize: "8px", margin: "-5px 0px" }}>
-            {data.label}
+            <pre>{data.label}</pre>
           </Typography>
         </Box>
       </Box>
-      <Handle type="source" position={Position.Left} id="b" />
-      <Handle type="target" position={Position.Right} id="a" />
+      <Handle
+        style={{ background: "red" }}
+        type="source"
+        position={Position.Left}
+        id="b"
+      />
+      <Handle
+        style={{ background: "green" }}
+        type="target"
+        position={Position.Right}
+        id="a"
+      />
+      
     </Box>
   );
 }

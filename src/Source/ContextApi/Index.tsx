@@ -36,6 +36,9 @@ export type ReactFlowContextType = {
   fileName: string;
   SetFileName: React.Dispatch<React.SetStateAction<string>>;
   SaveChart: () => void;
+  SetFlowChart: (Index: number) => boolean;
+  DeleteFlowChart: (Index: number) => void;
+  ResetChart: () => void;
 };
 
 export const ReactFlowContextApi = createContext<ReactFlowContextType | null>(
@@ -181,7 +184,47 @@ function SaveChart() {
 
   flowCharData.push({ ...chartData, id }); // Push the chartData along with the id
   localStorage.setItem("flowCharData", JSON.stringify(flowCharData));
-}
+  }
+  
+  function SetFlowChart(Index: number): boolean {
+    let FlowChartData = JSON.parse(localStorage.getItem("flowCharData") || "[]")
+    if (FlowChartData.length > Index) {
+      setNodes(FlowChartData[Index].nodes)
+      setEdges(FlowChartData[Index].edges)
+      SetFileName(FlowChartData[Index].fileName)
+      SetMiniMapOn(FlowChartData[Index].IsMiniMapOn)
+      setNodeColor(FlowChartData[Index].nodeColor)
+      setEdgeColor(FlowChartData[Index].edgeColor)
+      setBackgroundColor(FlowChartData[Index].backgroundColor)
+      setBackgroundVariant(FlowChartData[Index].backgroundVariant)
+      setBgLineWidth(FlowChartData[Index].bgLineWidth)
+      setBgGap(FlowChartData[Index].bgGap)
+      setBgSize(FlowChartData[Index].bgSize)
+      return true;
+    }
+    return false;
+  }
+
+
+  function DeleteFlowChart(Index: number) {
+    let FlowChartData = JSON.parse(localStorage.getItem("flowCharData") || "[]")
+    FlowChartData.splice(Index, 1)
+    localStorage.setItem("flowCharData", JSON.stringify(FlowChartData))
+  }
+
+  function ResetChart() {
+    setNodes([])
+    setEdges([])
+    SetFileName("")
+    SetMiniMapOn(true)
+    setNodeColor("#00ff00")
+    setEdgeColor("#ff0000")
+    setBackgroundColor("black")
+    setBackgroundVariant(BackgroundVariant.Dots)
+    setBgLineWidth(0.5)
+    setBgGap([4, 4])
+    setBgSize(1)
+  }
 
   
   return (
@@ -211,7 +254,10 @@ function SaveChart() {
         setBgGap,
         bgSize,
         setBgSize,
-        SaveChart
+        SaveChart,
+        SetFlowChart,
+        DeleteFlowChart,
+        ResetChart,
       }}
     >
       {children}
