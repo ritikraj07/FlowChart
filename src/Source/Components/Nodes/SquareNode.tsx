@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import { Handle, Position } from "reactflow";
 
 interface SquareNodeProps {

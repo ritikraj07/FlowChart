@@ -40,6 +40,7 @@ export default function BackGroundSetting() {
   const handleBackgroundVariantChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    event.preventDefault();
     const value = event.target.value as BackgroundVariant;
     setBackgroundVariant(value);
   };
@@ -48,14 +49,17 @@ export default function BackGroundSetting() {
     event: Event,
     newValue: number | number[]
   ) => {
+    event.preventDefault();
     setBgLineWidth(newValue as number);
   };
 
   const handleBgGapChange = (event: Event, newValue: number | number[]) => {
+    event.preventDefault();
     setBgGap(newValue as [number, number]);
   };
 
   const handleBgSizeChange = (event: Event, newValue: number | number[]) => {
+    event.preventDefault();
     setBgSize(newValue as number);
   };
 

@@ -1,9 +1,7 @@
 import React, {
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
 } from "react";
 import { Navbar } from "../Components";
 import { Box } from "@mui/material";
@@ -18,8 +16,7 @@ import ReactFlow, {
   Connection,
   Edge,
   Node,
-  OnSelectionChangeParams,
-  ConnectionLineType,
+  OnSelectionChangeParams
 } from "reactflow";
 import "reactflow/dist/style.css";
 import MessageNode from "../Components/Nodes/MessageNode";

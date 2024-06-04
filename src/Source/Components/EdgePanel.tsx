@@ -43,6 +43,7 @@ export default function EdgePanel() {
   };
 
   const handleAnimatedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.checked);
     setAnimated(event.target.checked);
   };
 
@@ -95,6 +96,7 @@ export default function EdgePanel() {
         }
         label="Animated"
       />
+      <br></br>
       <Button
         variant="contained"
         color="primary"

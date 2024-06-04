@@ -21,6 +21,7 @@ export default function Controller() {
   }, [location.pathname]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    event.preventDefault();
     setValue(newValue);
     if (newValue === 0) {
       navigate("/node-panel");

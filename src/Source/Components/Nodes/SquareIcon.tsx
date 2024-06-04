@@ -1,5 +1,4 @@
 import { SquareOutlined } from "@mui/icons-material";
-import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import { Box } from "@mui/material";
 import React from "react";
 

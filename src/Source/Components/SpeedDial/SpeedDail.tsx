@@ -1,11 +1,11 @@
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import ShareIcon from "@mui/icons-material/Share";
+// import FileDownloadIcon from "@mui/icons-material/FileDownload";
+// import ShareIcon from "@mui/icons-material/Share";
 import SaveIcon from "@mui/icons-material/Save";
-import PrintIcon from "@mui/icons-material/Print";
+// import PrintIcon from "@mui/icons-material/Print";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { useReactFlow, getNodesBounds, getViewportForBounds } from "reactflow";
+// import EditIcon from "@mui/icons-material/Edit";
+// import { useReactFlow } from "reactflow";
 import { toPng } from "html-to-image";
 import { ReactFlowContextApi } from "../../ContextApi/Index";
 import { useContext, } from "react";
@@ -17,8 +17,8 @@ export default function SpeedDialComponent() {
   let context = useContext(ReactFlowContextApi);
   if (!context) return <p>Loading...</p>;
   let { SaveChart, ResetChart } = context;
-  const { getNodes } = useReactFlow();
-  const nodes = getNodes();
+  // const { getNodes } = useReactFlow();
+  // const nodes = getNodes();
   const actions = [
     // { icon: <FileDownloadIcon />, name: "Download" },
     // { icon: <ShareIcon />, name: "Share: Feature Not Available" },
@@ -28,14 +28,14 @@ export default function SpeedDialComponent() {
   ];
 
   const handleDownload = () => {
-    const nodesBounds = getNodesBounds(nodes);
-    const transform = getViewportForBounds(
-      nodesBounds,
-      imageWidth,
-      imageHeight,
-      0.5,
-      2
-    );
+    // const nodesBounds = getNodesBounds(nodes);
+    // const transform = getViewportForBounds(
+    //   nodesBounds,
+    //   imageWidth,
+    //   imageHeight,
+    //   0.5,
+    //   2
+    // );
 
     const viewport = document.querySelector(
       ".react-flow__viewport"
