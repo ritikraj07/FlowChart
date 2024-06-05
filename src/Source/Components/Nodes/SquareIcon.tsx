@@ -1,8 +1,9 @@
+import React from "react";
 import { SquareOutlined } from "@mui/icons-material";
 import { Box } from "@mui/material";
-import React from "react";
 
 export default function SquareIcon() {
+  // Handle drag start event
   function onDragStart(
     event: React.DragEvent<HTMLDivElement>,
     nodeType: string
@@ -27,10 +28,9 @@ export default function SquareIcon() {
         borderRadius: "10%",
         backgroundColor: "rgb(245, 245, 245)",
       }}
-      >
-          
-          <SquareOutlined />
-      
+    >
+      {/* Square icon */}
+      <SquareOutlined />
     </Box>
   );
 }

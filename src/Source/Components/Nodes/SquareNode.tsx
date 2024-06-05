@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Handle, Position } from "reactflow";
 
@@ -23,6 +24,7 @@ export default function SquareNode({ data }: SquareNodeProps) {
         minHeight: "50px",
       }}
     >
+      {/* Label */}
       <Box sx={{ padding: "4px", textAlign: "justify" }}>
         <pre>
           <Typography
@@ -35,6 +37,7 @@ export default function SquareNode({ data }: SquareNodeProps) {
         </pre>
       </Box>
 
+      {/* Handles */}
       <Handle
         id="k"
         type="source"

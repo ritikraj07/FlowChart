@@ -1,45 +1,34 @@
+import React, { useContext } from "react";
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
-// import FileDownloadIcon from "@mui/icons-material/FileDownload";
-// import ShareIcon from "@mui/icons-material/Share";
 import SaveIcon from "@mui/icons-material/Save";
-// import PrintIcon from "@mui/icons-material/Print";
 import DeleteIcon from "@mui/icons-material/Delete";
-// import EditIcon from "@mui/icons-material/Edit";
-// import { useReactFlow } from "reactflow";
 import { toPng } from "html-to-image";
 import { ReactFlowContextApi } from "../../ContextApi/Index";
-import { useContext, } from "react";
 
 const imageWidth = 1024;
 const imageHeight = 768;
 
 export default function SpeedDialComponent() {
-  let context = useContext(ReactFlowContextApi);
+  // Access the context for ReactFlow
+  const context = useContext(ReactFlowContextApi);
+
+  // Display loading if context is not yet available
   if (!context) return <p>Loading...</p>;
-  let { SaveChart, ResetChart } = context;
-  // const { getNodes } = useReactFlow();
-  // const nodes = getNodes();
+
+  const { SaveChart, ResetChart } = context;
+
+  // Actions for the speed dial
   const actions = [
-    // { icon: <FileDownloadIcon />, name: "Download" },
-    // { icon: <ShareIcon />, name: "Share: Feature Not Available" },
     { icon: <SaveIcon />, name: "Save" },
-    // { icon: <PrintIcon />, name: "Print" },
     { icon: <DeleteIcon />, name: "Reset" },
   ];
 
+  // Function to handle downloading chart image
   const handleDownload = () => {
-    // const nodesBounds = getNodesBounds(nodes);
-    // const transform = getViewportForBounds(
-    //   nodesBounds,
-    //   imageWidth,
-    //   imageHeight,
-    //   0.5,
-    //   2
-    // );
-
     const viewport = document.querySelector(
       ".react-flow__viewport"
     ) as HTMLElement;
+
     if (!viewport) {
       console.error("Viewport not found");
       return;
@@ -65,24 +54,17 @@ export default function SpeedDialComponent() {
         a.click();
       })
       .catch((err) => {
-        
         console.error("Error generating image:", err);
       });
   };
-   
 
-   
-
+  // Function to handle speed dial action clicks
   const handleActionClick = (actionName: string) => {
     console.log(`${actionName} clicked`);
-    if (actionName == "Download") {
-      handleDownload();
-    } else if (actionName == "Save") {
+    if (actionName === "Save") {
       SaveChart();
-    }else if(actionName == "Reset"){
+    } else if (actionName === "Reset") {
       ResetChart();
-    }else if(actionName === "Print"){
-      
     }
   };
 

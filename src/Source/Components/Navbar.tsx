@@ -19,15 +19,23 @@ import { ReactFlowContextApi } from "../ContextApi/Index";
 import { CheckCircleOutline, DeleteOutline } from "@mui/icons-material";
 
 export default function Navbar() {
-  const [Visible, setVisible] = useState(false)
+  const [Visible, setVisible] = useState(false);
   const [save, setSave] = useState(false);
-  const [message, setMessage] = useState<string>("Please connect all nodes")
+  const [message, setMessage] = useState<string>("Please connect all nodes");
   let context = useContext(ReactFlowContextApi);
   if (!context) {
     return <div>Loading...</div>;
   }
 
-  const { fileName, SetFileName, nodes, edges, SaveChart, SetFlowChart, DeleteFlowChart } = context;
+  const {
+    fileName,
+    SetFileName,
+    nodes,
+    edges,
+    SaveChart,
+    SetFlowChart,
+    DeleteFlowChart,
+  } = context;
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -88,7 +96,7 @@ export default function Navbar() {
                   overflow: "hidden",
                   WebkitBoxOrient: "vertical",
                   WebkitLineClamp: 1,
-                  hover: { color:"blue" },
+                  hover: { color: "blue" },
                 }}
                 onClick={() => SetFlowChart(index)}
                 primary={index + 1 + ". " + chart.fileName}
@@ -99,74 +107,74 @@ export default function Navbar() {
             </ListItem>
           )
         )}
+        {JSON.parse(localStorage.getItem("flowCharData") || "[]").length ===
+        0 ? (
+          <Typography sx={{textAlign: "center", margin:"auto", color:"orange"}} >No Saved Files</Typography>
+        ) : null}
       </Box>
     </Box>
   );
 
   // Handler for the Save button click
-let isConnected: { [key: string]: boolean } = {};
+  let isConnected: { [key: string]: boolean } = {};
 
-const isAllConnected = ():boolean => {
-  
-
-  if (nodes.length === 0) {
-    setMessage("Nothing to save")
-    return false;
-  }
-
-  if (nodes.length === 1) {
-    return true;
-  }
-  // Initialize isConnected for each node
-  for (let i = 0; i < nodes.length; i++) {
-    isConnected[nodes[i].id] = false;
-  }
-
-  // Mark connected nodes as true
-  for (let i = 0; i < edges.length; i++) {
-    const source = edges[i].source;
-    const target = edges[i].target;
-
-    isConnected[source] = true;
-    isConnected[target] = true;
-  }
-
-  
-
-  // Check if any node is not connected
-  for (const nodeId in isConnected) {
-    if (!isConnected[nodeId]) {
-      // If any node is not connected, return false
-      console.log(`Node ${nodeId} is not connected.`);
-      setMessage("Please connect all nodes")
+  const isAllConnected = (): boolean => {
+    if (nodes.length === 0) {
+      setMessage("Nothing to save");
       return false;
     }
-  }
 
-  // If all nodes are connected, proceed with saving
-  console.log("All nodes are connected. Proceeding with saving...");
-  return true;
-};
+    if (nodes.length === 1) {
+      return true;
+    }
+    // Initialize isConnected for each node
+    for (let i = 0; i < nodes.length; i++) {
+      isConnected[nodes[i].id] = false;
+    }
 
+    // Mark connected nodes as true
+    for (let i = 0; i < edges.length; i++) {
+      const source = edges[i].source;
+      const target = edges[i].target;
+
+      isConnected[source] = true;
+      isConnected[target] = true;
+    }
+
+    // Check if any node is not connected
+    for (const nodeId in isConnected) {
+      if (!isConnected[nodeId]) {
+        // If any node is not connected, return false
+        console.log(`Node ${nodeId} is not connected.`);
+        setMessage("Please connect all nodes");
+        return false;
+      }
+    }
+
+    // If all nodes are connected, proceed with saving
+    console.log("All nodes are connected. Proceeding with saving...");
+    return true;
+  };
 
   function handleSave() {
     if (!isAllConnected()) {
-      setVisible(true)
+      setMessage("Nothing to Save");
+      setVisible(true);
       setTimeout(() => {
-        setVisible(false)
-      }, 3000)
+        setVisible(false);
+        
+      }, 3000);
+      return;
     }
 
     SaveChart();
 
-    setSave(true)
+    setSave(true);
 
     setTimeout(() => {
-      setSave(false)
+      setSave(false);
     }, 3000);
-
   }
-
 
   return (
     <Box sx={{ flexGrow: 1, margin: 0 }}>
@@ -226,6 +234,7 @@ const isAllConnected = ():boolean => {
               alignItems: "center",
             }}
           >
+            <Typography sx={{ marginRight:"10px"}} >Chart Name:</Typography>
             {isEditing ? (
               <InputBase
                 value={fileName}
@@ -253,9 +262,10 @@ const isAllConnected = ():boolean => {
                   borderRadius: "4px",
                   paddingLeft: "8px",
                   paddingRight: "8px",
-                  border: "none",
-                  width: "60%",
+                  // border: "none",
+                  // width: "60%",
                   textAlign: "center",
+                  border: "0.1px solid white",
                 }}
               >
                 {fileName}

@@ -1,8 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 import { Navbar } from "../Components";
 import { Box } from "@mui/material";
 import Controller from "../Components/Controller";
@@ -16,7 +12,7 @@ import ReactFlow, {
   Connection,
   Edge,
   Node,
-  OnSelectionChangeParams
+  OnSelectionChangeParams,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import MessageNode from "../Components/Nodes/MessageNode";
@@ -25,8 +21,10 @@ import SpeedDialComponent from "../Components/SpeedDial/SpeedDail.tsx";
 import SquareNode from "../Components/Nodes/SquareNode.tsx";
 
 export default function Home() {
+  // Access the context for ReactFlow
   const context = useContext(ReactFlowContextApi);
 
+  // Display loading if context is not yet available
   if (!context) {
     return <div>Loading...</div>;
   }
@@ -48,6 +46,7 @@ export default function Home() {
 
   const navigate = useNavigate();
 
+  // Handle connection of nodes
   const onConnect = useCallback(
     (params: Edge | Connection) => {
       setEdges((eds) => {
@@ -58,6 +57,7 @@ export default function Home() {
     [setEdges]
   );
 
+  // Handle drop event to add new nodes
   function onDrop(event: React.DragEvent) {
     event.preventDefault();
 
@@ -80,27 +80,31 @@ export default function Home() {
     setNodes((nds) => nds.concat(newNode));
   }
 
+  // Allow nodes to be dragged over the ReactFlow component
   function onDragOver(event: React.DragEvent) {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }
 
+  // Handle selection change to navigate to the respective editor
   const onSelectionChange = useCallback(
     ({ nodes, edges }: OnSelectionChangeParams) => {
-      // console.log(edges);
-
       if (edges[0]?.id !== undefined) {
         navigate(`/edge-panel/${edges[0]?.id}`);
-       }
+      }
 
       if (nodes[0]?.id !== undefined) {
         navigate(`/node-editor/${nodes[0]?.id}`);
       }
     },
-    []
+    [navigate]
   );
 
-  const nodeTypes = useMemo(() => ({ messageNode: MessageNode, squareNode: SquareNode }), []);
+  // Define custom node types
+  const nodeTypes = useMemo(
+    () => ({ messageNode: MessageNode, squareNode: SquareNode }),
+    []
+  );
 
   return (
     <Box>
@@ -113,7 +117,7 @@ export default function Home() {
           position: "relative",
         }}
       >
-        {/* box for react flow */}
+        {/* Box for ReactFlow */}
         <Box
           sx={{
             flexGrow: { xs: 1, md: 1 },
@@ -138,9 +142,6 @@ export default function Home() {
             onDragOver={onDragOver}
             onSelectionChange={onSelectionChange}
             fitView
-            // connectionLineType={ConnectionLineType.Bezier} 
-            // snapToGrid={true}
-            // snapGrid={[25, 25]}
           >
             <Background
               id="1"
@@ -151,7 +152,7 @@ export default function Home() {
               size={bgSize}
             />
             <Controls />
-            <Panel position="top-right" children={undefined} />
+            {/* <Panel position="bottom-left" children={<Controller />} /> */}
             {IsMiniMapOn && (
               <MiniMap
                 maskColor="rgba(0, 0, 0, 0.5)"
@@ -182,7 +183,7 @@ export default function Home() {
           </Box>
         </Box>
 
-        {/* box for settings node and edge */}
+        {/* Box for settings node and edge */}
         <Box
           sx={{
             flexGrow: { xs: 1, md: 1 },
@@ -190,10 +191,10 @@ export default function Home() {
             background: "white",
             width: { xs: "100%", md: "25%" },
             position: "relative",
+            borderLeft: "1px solid #1976D2",
           }}
         >
           <Controller />
-
           <Outlet />
         </Box>
       </Box>

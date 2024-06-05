@@ -11,6 +11,7 @@ import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
 import MiniMapSettings from "./Settings/MiniMap";
 import BackgroundSetting from "./Settings/BackgroundSettings";
 
+// Define props interface for MyAccordion component
 type Props = {
   children: ReactNode;
   name: string;
@@ -18,6 +19,7 @@ type Props = {
   onChange: (isExpanded: boolean) => void;
 };
 
+// Custom Accordion component with a expand/collapse functionality
 function MyAccordion({ children, name, expanded, onChange }: Props) {
   return (
     <Accordion
@@ -37,20 +39,25 @@ function MyAccordion({ children, name, expanded, onChange }: Props) {
 }
 
 export default function Settings() {
+  // Get context from the ReactFlowContextApi
   const context = useContext(ReactFlowContextApi);
 
-  if (!context) {
-    return <div>Loading...</div>;
-  }
-
+  // State to manage expanded accordion panel
   const [expandedAccordion, setExpandedAccordion] = useState<string | false>(
     false
   );
 
+  // Handle accordion panel expansion/collapse
   const handleAccordionChange = (panel: string) => (isExpanded: boolean) => {
     setExpandedAccordion(isExpanded ? panel : false);
   };
 
+  // If context is not available, display "Loading..."
+  if (!context) {
+    return <div>Loading...</div>;
+  }
+
+  // Render Settings component
   return (
     <Box
       sx={{
@@ -71,6 +78,7 @@ export default function Settings() {
         },
       }}
     >
+      {/* MiniMap Settings Accordion */}
       <MyAccordion
         name="MiniMap Settings"
         expanded={expandedAccordion === "MiniMap Settings"}
@@ -78,6 +86,8 @@ export default function Settings() {
       >
         <MiniMapSettings />
       </MyAccordion>
+
+      {/* Background Settings Accordion */}
       <MyAccordion
         name="Background Settings"
         expanded={expandedAccordion === "Background Settings"}
@@ -88,4 +98,3 @@ export default function Settings() {
     </Box>
   );
 }
-

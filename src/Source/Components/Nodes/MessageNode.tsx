@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Typography } from "@mui/material";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import { Handle, Position } from "reactflow";
@@ -5,12 +6,10 @@ import { Handle, Position } from "reactflow";
 interface MessageNodeProps {
   data: {
     label: string;
-    
   };
 }
 
 export default function MessageNode({ data }: MessageNodeProps) {
-
   return (
     <Box
       sx={{
@@ -22,7 +21,7 @@ export default function MessageNode({ data }: MessageNodeProps) {
       }}
     >
       <Box sx={{ minWidth: "150px" }}>
-        {/* box lable */}
+        {/* Label Box */}
         <Box
           sx={{
             display: "flex",
@@ -52,7 +51,7 @@ export default function MessageNode({ data }: MessageNodeProps) {
             </Typography>
           </Box>
           <Box>
-            {/* https://i.pinimg.com/564x/5a/5c/53/5a5c53a8cf5124a6681a5db0493b549a.jpg */}
+            {/* Image */}
             <img
               width="8px"
               height="8px"
@@ -62,30 +61,32 @@ export default function MessageNode({ data }: MessageNodeProps) {
                 padding: "1.5px",
                 borderRadius: "5px",
               }}
-              src=" https://i.pinimg.com/564x/5a/5c/53/5a5c53a8cf5124a6681a5db0493b549a.jpg "
+              src="https://i.pinimg.com/564x/5a/5c/53/5a5c53a8cf5124a6681a5db0493b549a.jpg"
+              alt="Attachment"
             />
           </Box>
         </Box>
-        {/* box message */}
+        {/* Message Box */}
         <Box sx={{ padding: "10px 5px" }}>
           <Typography sx={{ fontSize: "8px", margin: "-5px 0px" }}>
             <pre>{data.label}</pre>
           </Typography>
         </Box>
       </Box>
+      {/* Handle for source */}
       <Handle
         style={{ background: "red" }}
         type="source"
         position={Position.Left}
         id="b"
       />
+      {/* Handle for target */}
       <Handle
         style={{ background: "green" }}
         type="target"
         position={Position.Right}
         id="a"
       />
-      
     </Box>
   );
 }

@@ -12,8 +12,10 @@ import { ReactFlowContextApi } from "../../ContextApi/Index";
 import { BackgroundVariant } from "reactflow";
 
 export default function BackGroundSetting() {
+  // Access the context for ReactFlow
   const context = useContext(ReactFlowContextApi);
 
+  // Display loading if context is not yet available
   if (!context) {
     return <div>Loading...</div>;
   }
@@ -31,12 +33,14 @@ export default function BackGroundSetting() {
     setBgSize,
   } = context;
 
+  // Handle background color change
   const handleBackgroundColorChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setBackgroundColor(event.target.value);
   };
 
+  // Handle background variant change
   const handleBackgroundVariantChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -45,6 +49,7 @@ export default function BackGroundSetting() {
     setBackgroundVariant(value);
   };
 
+  // Handle background line width change
   const handleBgLineWidthChange = (
     event: Event,
     newValue: number | number[]
@@ -53,11 +58,13 @@ export default function BackGroundSetting() {
     setBgLineWidth(newValue as number);
   };
 
+  // Handle background gap change
   const handleBgGapChange = (event: Event, newValue: number | number[]) => {
     event.preventDefault();
-    setBgGap(newValue as [number, number]);
+     setBgGap(newValue as [number, number]);
   };
 
+  // Handle background size change
   const handleBgSizeChange = (event: Event, newValue: number | number[]) => {
     event.preventDefault();
     setBgSize(newValue as number);
@@ -67,6 +74,7 @@ export default function BackGroundSetting() {
     <Box
       sx={{ padding: "0px", backgroundColor: "#f9f9f9", borderRadius: "8px" }}
     >
+      {/* Background Color Setting */}
       <Box sx={{ marginTop: "10px" }}>
         <Typography>Background Color</Typography>
         <TextField
@@ -77,6 +85,7 @@ export default function BackGroundSetting() {
         />
       </Box>
 
+      {/* Background Variant Setting */}
       <Box sx={{ marginTop: "10px" }}>
         <Typography>Background Variant</Typography>
         <RadioGroup
@@ -101,6 +110,7 @@ export default function BackGroundSetting() {
         </RadioGroup>
       </Box>
 
+      {/* Background Line Width Setting */}
       <Box sx={{ marginTop: "10px" }}>
         <Typography>Line Width</Typography>
         <Slider
@@ -113,6 +123,7 @@ export default function BackGroundSetting() {
         />
       </Box>
 
+      {/* Background Gap Setting */}
       <Box sx={{ marginTop: "10px" }}>
         <Typography>Gap</Typography>
         <Slider
@@ -125,6 +136,7 @@ export default function BackGroundSetting() {
         />
       </Box>
 
+      {/* Background Size Setting */}
       <Box sx={{ marginTop: "10px" }}>
         <Typography>Size</Typography>
         <Slider

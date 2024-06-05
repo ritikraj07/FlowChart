@@ -2,16 +2,18 @@ import React, { useContext } from "react";
 import { Box, Typography, Switch } from "@mui/material";
 import { ReactFlowContextApi } from "../../ContextApi/Index";
 
-
 export default function MiniMapSettings() {
+  // Access the context for ReactFlow
   const context = useContext(ReactFlowContextApi);
 
+  // Display loading if context is not yet available
   if (!context) {
     return <div>Loading...</div>;
   }
 
   const { IsMiniMapOn, SetMiniMapOn } = context;
 
+  // Handle toggle switch change
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     SetMiniMapOn(event.target.checked);
   };
